@@ -1,6 +1,6 @@
 # Kafka Mirroring in Hybrid Cloud Environment
 
-This project teaches you how to leverage the power of Apache Kafka to replicate data between two clusters hosted in a hybrid cloud environment.
+This project shows us how to leverage the power of Apache Kafka to replicate data between two clusters hosted in a hybrid cloud environment.
 
 All you need is access to some basic programming skills, hands on experience with Linux and a little experience with AWS to get things kick started.
 
@@ -80,7 +80,7 @@ The below mentioned technology stack is generic in the sense that you are free t
 -   The Spark Streaming application running in the external environment reads the data from the target Kafka cluster and stores it in Amazon S3 from where it is pushed to Amazon Redshift
 
 
-### Pre-requisites
+### Development Pre-requisites
 
 Kindly ensure that you have downloaded Apache Kafka in both internal and external environments  and the servers are up and running
 
@@ -127,11 +127,57 @@ bin/kafka-run-class.sh kafka.tools.MirrorMaker --consumer.config config/mirror-c
 ./kafka-console-consumer.sh --topic hybrid --zookeeper xxx.xxx.xxx.xxx.amazonaws.com:2181 --from-beginning
 ```
 
-- Once the Kafka Mirror is up and running, download the codebase on your local as well as target cluster and extract the contents.
-
-- Compile the code base on both the clusters using the below command-
+- Now make the necessary tables in Hive and Amazon Redshift-
 
 ```
+# Hive DDL
+
+CREATE EXTERNAL TABLE hybrid_tweets(
+id BIGINT,
+text STRING,
+source STRING,
+reTweeted BOOLEAN,
+username STRING,
+createdAt TIMESTAMP,
+retweetCount INT,
+userLocation STRING,
+inReplyToUserId BIGINT,
+inReplyToStatusId BIGINT,
+userScreenName STRING,
+userDescription STRING,
+userFriendsCount INT,
+userStatusesCount INT,
+userFollowersCount INT
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '|'
+LOCATION '/user/spark/sparkstreaming';
+
+# Redshift DDL
+
+CREATE TABLE poc.hybrid_tweets(
+id bigint,
+text varchar(2000),
+source varchar(2000),
+reTweeted varchar(256),
+username varchar(2000),
+createdAt varchar(2000),
+retweetCount bigint,
+userLocation varchar(2000),
+inReplyToUserId bigint,
+inReplyToStatusId bigint,
+userScreenName varchar(2000),
+userDescription varchar(2000),
+userFriendsCount bigint,
+userStatusesCount bigint,
+userFollowersCount bigint
+);
+```
+
+- Now Download the codebase on your local as well as target cluster and extract the contents. Next compile the code bases on both the clusters and follow the commands listed below-
+
+```
+# Compiling the code
+cd xav-kafka-mirror
 mvn clean install
 
 # On the internal clustser start the spark application which will read the data from source kafka cluster and store it in HDFS where you can issue hive queries.
@@ -178,7 +224,8 @@ TwitterAgent.sinks.Kafka.brokerList = localhost:6667
 flume-ng agent -n TwitterAgent -f twitter-kafka.conf  --classpath  flume-sources-1.0-SNAPSHOT.jar
 ```
 
-Once the flume agent start the data will start coming in live from Twitter which will be processed by both the clusters.
+- Once the flume agent start the data will start coming in live from Twitter which will be processed by both the clusters.
+
 
 ### Development
 Want to contribute? Great!
