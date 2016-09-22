@@ -40,7 +40,8 @@ Demonstrate hybrid cloud solution using Kafka Mirroring across regions
 
 ### Environment Architecture
 
-<IMAGE>
+![alt text](https://github.com/XavientInformationSystems/Kakfa-Mirroring-Hybrid-Cloud/blob/master/src/main/resources/Architecture.PNG "Application Architecture") 
+
 
 The architecture above represent two cluster environments, private and public cloud respectively, where data is replicated from source Kafka cluster to target Kafka cluster with the help of MirrorMaker tool and analysis over the data sets is performed using Spark Streaming clusters.
 
