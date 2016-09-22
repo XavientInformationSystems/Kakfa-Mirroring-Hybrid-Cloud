@@ -29,7 +29,9 @@ The following diagram shows how to use the MirrorMaker tool to mirror a source K
 
 The tool uses a Kafka consumer to consume messages from the source cluster, and re-publishes those messages to the local (target) cluster using an embedded Kafka producer 
 
-<<IMAGE>>>
+
+
+![alt text](https://github.com/XavientInformationSystems/Kakfa-Mirroring-Hybrid-Cloud/blob/master/src/main/resources/Mirror.PNG "Mirror Architecture") 
 
 ### Use Case
 
