@@ -18,7 +18,7 @@ Some of the benefits of Hybrid Computing include -
 -   Increased Speed To Market
 -   Risk Management (test the waters)
 -   Improved Connectivity
--   Secure Systems
+-   Secure Systems mama
 
 
 ### Kafka Mirroring
